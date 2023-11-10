@@ -1,0 +1,7 @@
+{
+  "name": "clase_1_repaso",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
