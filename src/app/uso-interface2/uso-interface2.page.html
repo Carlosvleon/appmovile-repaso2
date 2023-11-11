@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>usoInterface2</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">usoInterface2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  {{serv2.usuarios | json}}
+
+  <ion-content *ngFor="let x of serv2.usuarios"> 
+    <h1>{{x.id}}</h1>
+    <h1>{{x.name}}</h1>
+
+  </ion-content>
+</ion-content>

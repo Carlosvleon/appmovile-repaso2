@@ -1,0 +1,5 @@
+<article *ngIf="post">
+  {{ post | json }}
+  <ion-button *ngIf="post.estado === false">Activar</ion-button>
+  <ion-button *ngIf="post.estado === true">Desactivar</ion-button>
+</article>

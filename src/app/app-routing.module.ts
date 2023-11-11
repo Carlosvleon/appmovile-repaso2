@@ -11,6 +11,31 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'nomnbre-pagina-nueva',
+    loadChildren: () => import('./nomnbre-pagina-nueva/nomnbre-pagina-nueva.module').then( m => m.NomnbrePaginaNuevaPageModule)
+  },
+  {
+    path: 'ciclo-vida',
+    loadChildren: () => import('./ciclo-vida/ciclo-vida.module').then( m => m.CicloVidaPageModule)
+  },
+  {
+    path: 'uso-interface2',
+    loadChildren: () => import('./uso-interface2/uso-interface2.module').then( m => m.UsoInterface2PageModule)
+  },
+  {
+    path: 'fm-login',
+    loadChildren: () => import('./fm-login/fm-login.module').then( m => m.FmLoginPageModule)
+  },
+  {
+    path: 'fm-menu',
+    loadChildren: () => import('./fm-menu/fm-menu.module').then( m => m.FmMenuPageModule)
+  },
+  {
+    path: 'fm-producto',
+    loadChildren: () => import('./fm-producto/fm-producto.module').then( m => m.FmProductoPageModule)
+  },
+
 ];
 
 @NgModule({

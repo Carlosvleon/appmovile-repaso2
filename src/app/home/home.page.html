@@ -1,5 +1,9 @@
 <ion-header [translucent]="true">
+  
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>
       Blank
     </ion-title>
@@ -15,6 +19,16 @@
 
   <div id="container">
     <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <p>wena <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <button (click)="aumentarContador()"> clickeame :D </button>
+    {{contador}}
+    <h1 [style]="aumentarFuente"> texto </h1>
+
+    <h1>USO DE SERVICIO</h1>
+    {{nuServicio.valor}}
+    <ion-button (click)="nuServicio.aumentar()"> + </ion-button>
+    <ion-button (click)="nuServicio.disminuir()"> - </ion-button>
   </div>
 </ion-content>

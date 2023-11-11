@@ -1,3 +1,19 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu Content</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">This is the menu content.</ion-content>
+    <ion-button routerLink="/nomnbre-pagina-nueva">nomnbre-pagina-nueva</ion-button>
+    <ion-button routerLink="/home">home</ion-button>
+    <ion-button routerLink="/ciclo-vida">ciclo-vida</ion-button>
+    <ion-button routerLink="/uso-interface2">uso-interface2</ion-button>
+    <ion-button routerLink="/fm-login">fm_login</ion-button>
+    <ion-button routerLink="/fm-menu">fm_menu</ion-button>
+    <ion-button routerLink="/fm-producto">fm_producto</ion-button>
+
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

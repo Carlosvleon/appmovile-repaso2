@@ -1,0 +1,304 @@
+repaso
+---------------------------------
+CLASE1
+---------------------------------
+*comando para crear proyecto de ionic como tipo angular:
+	ionic start nombre_proyecto blank --type=angular
+
+"node_modules"	<- no se sube, son las dependencias
+
+*con el comando "npm install" se instalan las dependencias
+
+*con el comando ionic serve se inicia el proyecto
+
+en el src > index.html esta el componente app-root dentro del body 
+
+ETIQUETAS DINAMICAS
+
+*para capturar los eventos se hace con "on" (ionic es sin el on lol xd)
+
+dentro del src > app > home > home.page.html hacemos un:
+	<button (click)="metodo_de_clase()"> clickeame :D </button>
+
+dentro del src > app > home > home.page.ts en la clase HomePage:
+-atributo:
+	public contador: number = 0;
+-metodo:
+	public aumentarContador(){
+		this.contador = this.contador + 1;
+	}
+
+*para hacer los estilos style dinamicos:
+	<h1 [style]="'font-size:'+nombrevariable+'px';"> texto </h1>
+
+-----------------------------------------
+clase 2
+-----------------------------------------
+
+*para agregar el menu
+
+en src>app>app.component.html copiamos:
+<ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu Content</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">This is the menu content.</ion-content>
+  </ion-menu>
+
+y al <ion-router-outlet"></ion-router-outlet> le agregamos "id="main-content" el quedando como:
+<ion-router-outlet id="main-content"></ion-router-outlet>
+
+y a cada pagina debajo del ion-toolbar:
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+*para generar otra pagina nueva en el proyecto:
+	ionic g page nomnbre_pagina_nueva
+
+*Recuerda que el routing se guarda en src>app>app-routing.module.ts
+
+en la pagina principal agregamos un routierLink
+
+*como crear una interfaz
+
+*creamos una nueva carpeta con un archivo ts con la inicial en matus I
+
+*creamos la estructura:
+export interface nombrearchivo{
+	parametro1:tipo;
+	parametro2:tipo;
+}
+
+*en el archivo page.ts:
+	-importamos la intergaz con import from
+
+	-dentro de la clase definimos una propiedad:
+		public interfaz: Iejemplo []=[
+			{propiedades objeto 1},
+			{propiedades objeto 1}
+]
+
+*despues en el html iteramos con:
+	*ngFor="let x of interfaz"
+
+-----------------------------------------
+clase 3
+-----------------------------------------
+
+*creamos el metodo para filtrar los activos en la clase de la pagina nueva:
+
+  public get productosActivos(){
+    return this.interfaz.filter(nombreVar => nombreVar.estado === true)
+  }
+GENRAR COMPONENTES
+* ahora generamos los componentes con el comando:
+	npx ng g c nomnbre-pagina-nueva/comp2Inactivos
+
+*en el componente nuevo.ts importamos:
+	Input  from '@angular/core';
+
+*dentro de la clase agregamos (para poder heredar desde un padre)
+	@Input()
+
+*creamos una variable de tipo array del objeto (Iejemplo en este caso):
+	  public activos:Iejemplo[] = []
+
+*para declarar, en el .modules.ts de la pagina (el componente no tiene module.ts) importamos el Comp2InactivosComponent from
+
+* ahora generamos componente para mostrar con el comando:
+	npx ng g c nomnbre-pagina-nueva/comp3Mostrar
+
+*lo declaramos en el modules.ts
+
+*lo ocupamos en el html
+
+------------------------------------
+ciclo de vida
+------------------------------------
+import { ViewDidEnter,ViewDidLeave,ViewWillEnter,ViewWillLeave  } from '@ionic/angular'
+
+export class CicloVidaPage implements OnInit, ViewDidEnter,ViewDidLeave,ViewWillEnter,ViewWillLeave {
+
+  constructor() { 
+    console.log("constructor")
+  }
+
+  ngOnInit():void {
+    console.log("ngOnInit")
+  }
+  ngOnDestroy(){
+    console.log("ngOnDestroy")
+  }
+  ionViewDidEnter():void{
+    console.log("ViewDidEnter")
+  }
+  ionViewDidLeave():void{
+    console.log("ViewDidLeave")
+    
+  }
+  ionViewWillEnter():void{
+    console.log("ViewWillEnter")
+    
+  }
+  ionViewWillLeave():void{
+    console.log("ViewWillLeave")
+    
+  }
+}
+
+
+Crear un servicio 
+
+*creamos el servicio con el codigo
+	ionic g service servicioNuevo
+
+*en el ts del servicio le creamos la propieda valor y metodos para aumentar y disminuir 
+
+despues en el home.ts importamos el servicio y en el constructor lo pasamos como parametro (public nuServicio: ServicioNuevoService)
+
+inyectamos el servicio en el constructor de la pagina donde lo usaremos, importandolo antes
+
+
+
+------------------------------------
+ciclo de vida + servicio + httpclient
+------------------------------------
+
+https://jsonplaceholder.typicode.com/users
+
+*primero creamos la interfaz para usar el json
+
+luego, en el module, importamos el servicio HttpClientModule, lo importamos desde:
+	import { HttpClientModule } from "@angular/common/http"
+
+y lo agregamos a la lista de imports de module.ts
+
+para este caso, se creo el servicio nuevo dentro de servicios/servicio2
+ionic g service servicios/servicio2  
+
+este nuevo servicio lo importamos en el page.ts de la paguina que lo usara
+
+posterior importacion, dentro del servicio, importamos
+	import { HttpClient} from '@angular/common/http'
+e importamos el IUSER de entidades
+
+*aqui haremos un cargando o loading usando un booleano*
+
+dentro del servicio2 creamos estos parametros con estos valores
+	public cargando = false;
+ 	public usuarios: IUser[] = [];
+	private readonly URL_USUARIO = 'https://jsonplaceholder.typicode.com/users';
+  	public valor =0;
+
+Para la injeccion de dependencias lo hacemos dentro del constructor del servicio:
+  constructor( 
+    private http:HttpClient
+    ) { }
+creamos un metodo para obterner los usuarios:
+	public obtenerUsuarios(){}
+con tipo generico (pacmans o <>) le solicitamos al http el array de IUser desde la url con:
+	     this.http.get<IUser[]>(this.URL_USUARIO).subscribe(datos => {
+     		this.usuarios = datos;
+      		this.cargando = false;
+      		console.log(datos);
+     		})
+
+en la page.ts llamamos en el ciclo ionviewwillenter llamamos al metodo obtenerUsuarios() el cual imprimira en consolael array de usuarios
+
+en el html usamos {{serv2.usuarios | json}}  para que muestre los usuarios, los cuales podemos iterar con ngfor
+
+del video 2023-09-30 11-07-24 me falto ver desde el 49 para el delay
+
+------------------------------------
+formBuilder
+------------------------------------
+api:
+https://dummyjson.com/docs/auth
+
+para este ejemplo se crea las paginas fb_login, fb_menu y fb_producto
+
+*crear formulario logico
+el formulario es entregado por un servicio, en este caso, del httpclient, el cual se importa desde el modulo que se usara, en este caso, el modulo.ts de login:
+	import { ReactiveFormsModule } from '@angular/forms'
+
+OJO ELIMINAR DE LOS IMPORTS EL "FormsModule" YA QUE ES LA VERSION MAS BARATA
+
+agregar el ReactiveFormsModule a los imports
+
+despues en el fm_login.page.ts:
+	import { FormBuilder, FormGroup, Validators} from '@angular/forms'
+despues editamos el constructor:
+ constructor(
+    private formBuilder: FormBuilder
+  ) { 
+    this.formularioLogin = formBuilder.group({
+      usuario: ['',[Validators.required,Validators.minLength(3),Validators.maxLength(10)]]
+    })
+  }
+  public intentarLogear(){
+    if(!this.formularioLogin.valid){
+        alert("form incorrecto");
+        this.formularioLogin.controls['nombre'].setValue('');
+        this.formularioLogin.controls['password'].setValue('');
+        this.formularioLogin.clearValidators();
+      return
+    }
+  }
+
+OJO con validators tenemos las validaciones dentro del formulario creado en el constructor
+
+para las expresiones regulares usar https://regexr.com/ (para las restricciones de la password)
+
+ahora crearemos el formulario fisico, en el html de login:
+<form [formGroup]="formularioLogin" (ngSubmit)="intentarLogear()">
+    <ion-item>
+      <ion-label position="floating"> ingresa usuario</ion-label>
+      <ion-input type="text" formControlName="usuario"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"> ingresa passwoird</ion-label>
+      <ion-input type="text" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-button expand="block"> entrar</ion-button>
+  </form>
+
+ahora generamos un servicio para hacer la peticion a internet:
+	ionic g s servicio/serv_auth
+
+RECORDAR QUE HAY QUE IMPORTAR EL SERVICIO EN EL app-MODULE.TS
+
+import { HttpClientModule } from '@angular/common/http'
+
+
+en el servicio generado, importamos 
+	import { HttpClient } from '@angular/common/http'
+
+en el constructor:
+	constructor(private http: HttpClient) { }
+
+ahora creamos una interfaz para recivir la respuesta, para ello, creamos un modelo en modelos>usuariosLogeados.ts
+
+vamos al servicio, configuramos el cargando:
+
+
+despues de terminar todo el servicio, vamos al login.page.ts
+import {ServAuthService } from '../servicio/serv-auth.service'
+
+y agregamos al constructor:
+    public auth: ServAuthService
+
+despues del intentarlogear(){}
+
+    this.auth.intentarLogear(
+      this.formularioLogin.controls["nombre"].value,
+      this.formularioLogin.controls["password"].value
+    )
+
+AHORA HACEMOS EL CARGANDO VISUAL
+
+en el login.html debajo del form:
+<ion-progress-bar [value]="progress"></ion-progress-bar>
